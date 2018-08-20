@@ -50,7 +50,7 @@ type Errors interface {
     }
 ```
 
-[Read the examples for more usages.](https://github.com/pharosnet/errors/example) 
+[Read the examples for more usages.](https://github.com/pharosnet/errors/tree/master/example) 
 
 [Read the package documentation for more information](https://godoc.org/github.com/pharosnet/errors).
 
