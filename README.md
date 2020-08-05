@@ -48,6 +48,12 @@ type Errors interface {
     if errors.Contains(e3, e1) {
         // TODO ...
     }
+
+    // full format
+    fmt.Println(fmt.Sprintf("%+v", e3))
+
+    // json format
+    fmt.Println(fmt.Sprintf("%-v", e3))
 ```
 
 [Read the examples for more usages.](https://github.com/pharosnet/errors/tree/master/example) 

@@ -47,6 +47,30 @@ func WithF(cause error, format string, args ...interface{}) error {
 	}
 }
 
+func WithDepth(depth int, cause error, message string) error {
+	if cause == nil {
+		return nil
+	}
+	return &errorUp{
+		msg:      message,
+		cause:    cause,
+		pcs:      callersByAssigned(depth, 3),
+		occurred: timeNow(),
+	}
+}
+
+func WithDepthF(depth int, cause error, format string, args ...interface{}) error {
+	if cause == nil {
+		return nil
+	}
+	return &errorUp{
+		msg:      fmt.Sprintf(format, args...),
+		cause:    cause,
+		pcs:      callersByAssigned(depth, 3),
+		occurred: timeNow(),
+	}
+}
+
 func Wrap(e error) error {
 	return &errorUp{
 		msg:      e.Error(),
