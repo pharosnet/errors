@@ -39,7 +39,7 @@ type Errors interface {
 ```go
     e1 := io.EOF
     e2 := errors.With(e1, "error2")
-    e3 := errors.WithF(e2, "%s", "error3")
+    e3 := errors.Withf(e2, "%s", "error3")
      
     if errors.Contains(e3, e2) {
             // TODO .. 

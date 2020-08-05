@@ -14,11 +14,29 @@ func New(message string) error {
 	}
 }
 
-func ErrorF(format string, args ...interface{}) error {
+func Errorf(format string, args ...interface{}) error {
 	return &errorUp{
 		msg:      fmt.Sprintf(format, args...),
 		cause:    nil,
 		pcs:      callers(),
+		occurred: timeNow(),
+	}
+}
+
+func NewWithDepth(depth int, skip int, message string) error {
+	return &errorUp{
+		msg:      message,
+		cause:    nil,
+		pcs:      callersByAssigned(depth, skip),
+		occurred: timeNow(),
+	}
+}
+
+func ErrorWithDepthf(depth int, skip int, format string, args ...interface{}) error {
+	return &errorUp{
+		msg:      fmt.Sprintf(format, args...),
+		cause:    nil,
+		pcs:      callersByAssigned(depth, skip),
 		occurred: timeNow(),
 	}
 }
@@ -35,7 +53,7 @@ func With(cause error, message string) error {
 	}
 }
 
-func WithF(cause error, format string, args ...interface{}) error {
+func Withf(cause error, format string, args ...interface{}) error {
 	if cause == nil {
 		return nil
 	}
@@ -47,26 +65,26 @@ func WithF(cause error, format string, args ...interface{}) error {
 	}
 }
 
-func WithDepth(depth int, cause error, message string) error {
+func WithDepth(depth int, skip int, cause error, message string) error {
 	if cause == nil {
 		return nil
 	}
 	return &errorUp{
 		msg:      message,
 		cause:    cause,
-		pcs:      callersByAssigned(depth, 3),
+		pcs:      callersByAssigned(depth, skip),
 		occurred: timeNow(),
 	}
 }
 
-func WithDepthF(depth int, cause error, format string, args ...interface{}) error {
+func WithDepthf(depth int, skip int, cause error, format string, args ...interface{}) error {
 	if cause == nil {
 		return nil
 	}
 	return &errorUp{
 		msg:      fmt.Sprintf(format, args...),
 		cause:    cause,
-		pcs:      callersByAssigned(depth, 3),
+		pcs:      callersByAssigned(depth, skip),
 		occurred: timeNow(),
 	}
 }
@@ -76,15 +94,6 @@ func Wrap(e error) error {
 		msg:      e.Error(),
 		cause:    nil,
 		pcs:      callers(),
-		occurred: timeNow(),
-	}
-}
-
-func NewByAssigned(depth int, skip int, message string) error {
-	return &errorUp{
-		msg:      message,
-		cause:    nil,
-		pcs:      callersByAssigned(depth, skip),
 		occurred: timeNow(),
 	}
 }
