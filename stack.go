@@ -24,7 +24,7 @@ func fileName(src string) (goPath string, file string) {
 }
 
 func timeNow() time.Time {
-	return time.Now().In(_cfg.loc)
+	return time.Now()
 }
 
 func callers() []uintptr {
